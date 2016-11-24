@@ -12,14 +12,15 @@ map.addControl(new MapboxGeocoder({
 }));
 
 map.on('load', function () {
-    map.addSource('terrain-data', {
+
+    map.addSource('wikidata', {
         type: 'vector',
         url: 'mapbox://amisha.wikidata'
     });
     map.addLayer({
-        "id": "terrain-data",
+        "id": "wikidata-nodes",
         "type": "circle",
-        "source": "terrain-data",
+        "source": "wikidata",
         "source-layer": "wikidata",
         "paint": {
             "circle-color": {
@@ -34,4 +35,6 @@ map.on('load', function () {
             }
         }
     });
+
+
 });
