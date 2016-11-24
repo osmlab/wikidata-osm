@@ -14,7 +14,7 @@ map.addControl(new MapboxGeocoder({
 map.on('load', function () {
     map.addSource('terrain-data', {
         type: 'vector',
-        url: 'mapbox://mapbox.mapbox-terrain-v2'
+        url: 'mapbox://amisha.wikidata'
     });
     map.addLayer({
         "id": "terrain-data",
