@@ -18,16 +18,11 @@ map.on('load', function () {
     });
     map.addLayer({
         "id": "terrain-data",
-        "type": "line",
+        "type": "circle",
         "source": "terrain-data",
-        "source-layer": "contour",
-        "layout": {
-            "line-join": "round",
-            "line-cap": "round"
-        },
+        "source-layer": "wikidata",
         "paint": {
-            "line-color": "#ff69b4",
-            "line-width": 1
+            "circle-color": "#00008B"
         }
     });
 });
