@@ -12,14 +12,14 @@ map.addControl(new MapboxGeocoder({
 }));
 
 map.on('load', function () {
-    map.addSource('terrain-data', {
+    map.addSource('wikidata-source', {
         type: 'vector',
         url: 'mapbox://amisha.wikidata'
     });
     map.addLayer({
-        "id": "terrain-data",
+        "id": "wikidata-layer",
         "type": "circle",
-        "source": "terrain-data",
+        "source": "wikidata-source",
         "source-layer": "wikidata",
         "paint": {
             "circle-radius": {
@@ -38,4 +38,32 @@ map.on('load', function () {
             }
         }
     });
+});
+
+map.on('click', function (e) {
+    var features = map.queryRenderedFeatures(e.point, { layers: ['wikidata-layer'] });
+
+    if (!features.length) {
+        return;
+    }
+
+    var feature = features[0];
+
+    // Populate the popup and set its coordinates
+    // based on the feature found.
+
+    popupHTML = '<h3>' + feature.properties.name +
+                '</h3></br><a href="https://www.wikidata.org/wiki/' +
+                feature.properties.wikidata +
+                '">wikidata</a>';
+
+    var popup = new mapboxgl.Popup()
+        .setLngLat(feature.geometry.coordinates)
+        .setHTML(popupHTML)
+        .addTo(map);
+});
+
+map.on('mousemove', function (e) {
+    var features = map.queryRenderedFeatures(e.point, { layers: ['wikidata-layer'] });
+    map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
 });
