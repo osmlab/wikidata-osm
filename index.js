@@ -22,7 +22,16 @@ map.on('load', function () {
         "source": "terrain-data",
         "source-layer": "wikidata",
         "paint": {
-            "circle-color": "#00008B"
+            "circle-color": {
+                "property": 'distance',
+                "stops": [
+                    [ 0, '#fbb03b'],
+                    [ 0.1, '#223b53'],
+                    [ 1, '#e55e5e'],
+                    [ 5, '#3bb2d0'],
+                    [ 10, '#ccc'],
+                    [1000, '']]
+            }
         }
     });
 });
