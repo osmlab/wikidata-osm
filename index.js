@@ -22,15 +22,19 @@ map.on('load', function () {
         "source": "terrain-data",
         "source-layer": "wikidata",
         "paint": {
+            "circle-radius": {
+                "property": 'distance',
+                'stops': [
+                    [ 0, 1],
+                    [ 5, 4],
+                    [ 10, 9]]
+            },
             "circle-color": {
                 "property": 'distance',
                 "stops": [
-                    [ 0, '#fbb03b'],
-                    [ 0.1, '#223b53'],
-                    [ 1, '#e55e5e'],
-                    [ 5, '#3bb2d0'],
-                    [ 10, '#ccc'],
-                    [1000, '']]
+                    [ 0, '#00ff00'],
+                    [ 5, '#ffff00'],
+                    [ 10, '#ff0000']]
             }
         }
     });
