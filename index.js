@@ -59,8 +59,15 @@ map.on('click', function(e) {
     // Populate the popup and set its coordinates
     // based on the feature found.
 
+    var left = feature.geometry.coordinates[0] - 1;
+    var top = feature.geometry.coordinates[1] - 1;
+    var right = feature.geometry.coordinates[0] + 1;
+    var bottom = feature.geometry.coordinates[1] + 1;
     var popupHTML = "<h3>" + feature.properties.name + "</h3>";
     popupHTML += "<a href='https://www.wikidata.org/wiki/" + feature.properties.wikidata + "'>Wikidata</a><br>";
+    popupHTML += "<a href='http://nominatim.openstreetmap.org/search.php?q=" +
+                  feature.properties.name +
+                  "&polygon=1&bounded=1&viewbox=" + left + "%2C" + top + "%2C" + right + "%2C" + bottom + "'>OSM</a><br>";
     popupHTML += JSON.stringify(feature.properties);
 
     var popup = new mapboxgl.Popup()
