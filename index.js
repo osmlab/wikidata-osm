@@ -68,7 +68,13 @@ map.on('click', function(e) {
     popupHTML += "<a href='http://nominatim.openstreetmap.org/search.php?q=" +
                   feature.properties.name +
                   "&polygon=1&bounded=1&viewbox=" + left + "%2C" + top + "%2C" + right + "%2C" + bottom + "'>OSM</a><br>";
-    popupHTML += JSON.stringify(feature.properties);
+
+    popupHTML += "<table>";
+
+    for(property in feature.properties) {
+        popupHTML += "<tr><td>" + property + "</td><td>" + feature.properties[property] + "</td></tr>";
+    }
+    popupHTML += "</table>";
 
     var popup = new mapboxgl.Popup()
         .setLngLat(feature.geometry.coordinates)
