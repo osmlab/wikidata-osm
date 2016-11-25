@@ -69,7 +69,7 @@ map.on('click', function(e) {
                   feature.properties.name +
                   "&polygon=1&bounded=1&viewbox=" + left + "%2C" + top + "%2C" + right + "%2C" + bottom + "'>OSM</a><br>";
 
-    popupHTML += "<table>";
+    popupHTML += "<table style='table-layout:fixed'>";
 
     for(property in feature.properties) {
         popupHTML += "<tr><td>" + property + "</td><td>" + feature.properties[property] + "</td></tr>";
