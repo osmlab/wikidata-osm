@@ -20,7 +20,7 @@ map.on('load', function() {
         "id": "wikidata-layer",
         "type": "circle",
         "source": "wikidata-source",
-        "source-layer": "wikidata",
+        "source-layer": "wikidata_planet_geojson",
         "paint": {
             "circle-radius": {
                 "property": 'distance',
