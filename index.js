@@ -14,7 +14,7 @@ map.addControl(new MapboxGeocoder({
 map.on('load', function() {
     map.addSource('wikidata-source', {
         type: 'vector',
-        url: 'mapbox://amisha.wikidata'
+        url: 'mapbox://amisha.wikidata_planet_geojson'
     });
     map.addLayer({
         "id": "wikidata-layer",
