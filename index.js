@@ -72,7 +72,12 @@ map.on('click', function(e) {
     popupHTML += "<table style='table-layout:fixed'>";
 
     for(property in feature.properties) {
-        popupHTML += "<tr><td>" + property + "</td><td>" + feature.properties[property] + "</td></tr>";
+        if (property == 'distance') {
+            var distance = feature.properties[property];
+            popupHTML += "<tr bgcolor = #d5e8ce><td>" + property + "</td><td>" + parseFloat(distance.toFixed(3)) + "</td></tr>";
+        } else {
+            popupHTML += "<tr><td>" + property + "</td><td>" + feature.properties[property] + "</td></tr>";
+        }
     }
     popupHTML += "</table>";
 
