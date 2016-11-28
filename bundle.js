@@ -2,7 +2,7 @@
 'use strict';
 
 /* global App */
-// var mapboxgl = require('mapbox-gl');
+var mapboxglUtil = require('./mapbox-gl-interact');
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicGxhbmVtYWQiLCJhIjoiY2l2dzVxbzA3MDAwNDJzbDUzMzVzbXc5dSJ9.WZ4_UtVvuVmOw4ofNMkiJw';
 var map = new mapboxgl.Map({
@@ -50,6 +50,8 @@ map.on('load', function() {
 
 
 });
+
+mapboxglInteract.inspector(map, {'on' : 'click', 'layers': ['wikidata-layer']});
 
 map.on('click', function(e) {
     var features = map.queryRenderedFeatures(e.point, {
@@ -99,5 +101,42 @@ map.on('mousemove', function(e) {
     });
     map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
 });
+
+},{"./mapbox-gl-interact":2}],2:[function(require,module,exports){
+// mapbox-gl-interact: Common tools to add interactivity to your Mapbox GL map
+//  inspector: Explore the map data by inspecting features with the mouse
+
+var extend = require("xtend");
+
+//
+const setupUtils = function(options, api){
+
+}
+
+// Export module
+module.exports = function(options){
+  setupUtils(options, this);
+};
+
+},{"xtend":3}],3:[function(require,module,exports){
+module.exports = extend
+
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+function extend() {
+    var target = {}
+
+    for (var i = 0; i < arguments.length; i++) {
+        var source = arguments[i]
+
+        for (var key in source) {
+            if (hasOwnProperty.call(source, key)) {
+                target[key] = source[key]
+            }
+        }
+    }
+
+    return target
+}
 
 },{}]},{},[1]);
