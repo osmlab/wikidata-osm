@@ -1,3 +1,4 @@
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
 /* global App */
@@ -61,27 +62,35 @@ map.on('click', function(e) {
 
     var feature = features[0];
 
-    var lngLat1, lngLat2;
-    $.getJSON("https://www.wikidata.org/w/api.php?action=wbgetentities&ids=" + feature.properties.wikidata + "&format=json&callback=?", function(data) {
-        if (data["entities"]) {
-            feature.properties.distance = parseFloat(feature.properties.distance.toFixed(3));
-            var latitude = data["entities"][feature.properties.wikidata]["claims"]["P625"][0]["mainsnak"]["datavalue"]["value"]["latitude"];
-            var longitude = data["entities"][feature.properties.wikidata]["claims"]["P625"][0]["mainsnak"]["datavalue"]["value"]["longitude"];
-            lngLat1 = new mapboxgl.LngLat(longitude, latitude);
-            lngLat2 = new mapboxgl.LngLat(feature.geometry.coordinates[0], feature.geometry.coordinates[1]);
-            var distance = parseFloat(getDistance(lngLat1, lngLat2).toFixed(3));
-            var modified = false;
-            if (distance !== feature.properties.distance && Math.abs(distance - feature.properties.distance) > 0.1) {
-                modified = true;
-                feature.properties.distance = distance;
-            }
-            var popupHTML = populateTable(feature, modified);
-            var popup = new mapboxgl.Popup()
-                .setLngLat(feature.geometry.coordinates)
-                .setHTML(popupHTML)
-                .addTo(map);
+    // Populate the popup and set its coordinates
+    // based on the feature found.
+
+    var left = feature.geometry.coordinates[0] - 1;
+    var top = feature.geometry.coordinates[1] - 1;
+    var right = feature.geometry.coordinates[0] + 1;
+    var bottom = feature.geometry.coordinates[1] + 1;
+    var popupHTML = "<h3>" + feature.properties.name + "</h3>";
+    popupHTML += "<a href='https://www.wikidata.org/wiki/" + feature.properties.wikidata + "'>Wikidata</a><br>";
+    popupHTML += "<a href='http://nominatim.openstreetmap.org/search.php?q=" +
+                  feature.properties.name +
+                  "&polygon=1&bounded=1&viewbox=" + left + "%2C" + top + "%2C" + right + "%2C" + bottom + "'>OSM</a><br>";
+
+    popupHTML += "<table style='table-layout:fixed'>";
+
+    for(property in feature.properties) {
+        if (property == 'distance') {
+            var distance = feature.properties[property];
+            popupHTML += "<tr bgcolor = #d5e8ce><td>" + property + "</td><td>" + parseFloat(distance.toFixed(3)) + "</td></tr>";
+        } else {
+            popupHTML += "<tr><td>" + property + "</td><td>" + feature.properties[property] + "</td></tr>";
         }
-    });
+    }
+    popupHTML += "</table>";
+
+    var popup = new mapboxgl.Popup()
+        .setLngLat(feature.geometry.coordinates)
+        .setHTML(popupHTML)
+        .addTo(map);
 });
 
 map.on('mousemove', function(e) {
@@ -91,47 +100,4 @@ map.on('mousemove', function(e) {
     map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
 });
 
-function populateTable(feature, modified) {
-    // Populate the popup and set its coordinates
-    // based on the feature found.
-
-    var left = feature.geometry.coordinates[0] - 1;
-    var top = feature.geometry.coordinates[1] - 1;
-    var right = feature.geometry.coordinates[0] + 1;
-    var bottom = feature.geometry.coordinates[1] + 1;
-    var popupHTML = "<h3>" + feature.properties.name + "</h3>";
-    if (modified) {
-        popupHTML += "<h4>Modified on wikidata</h4>";
-    }
-    popupHTML += "<a href='https://www.wikidata.org/wiki/" + feature.properties.wikidata + "'>Wikidata</a><br>";
-    popupHTML += "<a href='http://nominatim.openstreetmap.org/search.php?q=" +
-                  feature.properties.name +
-                  "&polygon=1&bounded=1&viewbox=" + left + "%2C" + top + "%2C" + right + "%2C" + bottom + "'>OSM</a><br>";
-
-    popupHTML += "<table style='table-layout:fixed'>";
-    for(property in feature.properties) {
-        if (property == 'distance') {
-            var distance = feature.properties[property];
-            popupHTML += "<tr bgcolor = #d5e8ce><td>" + property + "</td><td>" + distance + "</td></tr>";
-        } else {
-            popupHTML += "<tr><td>" + property + "</td><td>" + feature.properties[property] + "</td></tr>";
-        }
-    }
-    popupHTML += "</table>";
-
-    return popupHTML;
-}
-
-function getDistance(lnglat1, lnglat2) {
-    // Uses spherical law of cosines approximation.
-    const R = 6371000;
-
-    const rad = Math.PI / 180,
-        lat1 = lnglat1.lat * rad,
-        lat2 = lnglat2.lat * rad,
-        a = Math.sin(lat1) * Math.sin(lat2) +
-          Math.cos(lat1) * Math.cos(lat2) * Math.cos((lnglat2.lng - lnglat1.lng) * rad);
-
-    const maxMeters = R * Math.acos(Math.min(a, 1));
-    return maxMeters / 1000;
-}
+},{}]},{},[1]);
