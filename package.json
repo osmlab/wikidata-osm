@@ -1,0 +1,16 @@
+{
+  "name": "wikidata-osm",
+  "version": "0.0.1",
+  "description": "Explore Wikidata connected features on OpenStreetMap",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run build && budo index.js --serve=bundle.js --live -d",
+    "build": "browserify index.js > bundle.js"
+  },
+  "author": "Amisha S",
+  "license": "MIT",
+  "devDependencies": {
+    "browserify": "^13.1.0",
+    "budo": "^9.2.1"
+  }
+}
