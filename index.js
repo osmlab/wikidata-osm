@@ -47,7 +47,7 @@ map.on('load', function() {
         }
     });
 
-    // Inspect wikidata layer on click and highlight the distance field
+    // Inspect wikidata layer on click and show popup information
     mapboxglLive.inspector(map, {layers: ['wikidata-layer'] });
 
 
