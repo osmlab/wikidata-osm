@@ -56,6 +56,32 @@ map.on('click', function(e) {
 
     var feature = features[0];
 
+    var lngLat1, lngLat2;
+    $.getJSON("http://www.wikidata.org/w/api.php?action=wbgetentities&ids=" + feature.properties.wikidata + "&format=json&callback=?", function(data) {
+        if (data["entities"]) {
+            var latitude = data["entities"][feature.properties.wikidata]["claims"]["P625"][0]["mainsnak"]["datavalue"]["value"]["latitude"];
+            var longitude = data["entities"][feature.properties.wikidata]["claims"]["P625"][0]["mainsnak"]["datavalue"]["value"]["longitude"];
+            lngLat1 = new mapboxgl.LngLat(longitude, latitude);
+            lngLat2 = new mapboxgl.LngLat(feature.geometry.coordinates[0], feature.geometry.coordinates[1]);
+            var distance = getDistance(lngLat1, lngLat2);
+            feature.properties.distance = distance;
+            var popupHTML = populateTable(feature);
+            var popup = new mapboxgl.Popup()
+                .setLngLat(feature.geometry.coordinates)
+                .setHTML(popupHTML)
+                .addTo(map);
+        }
+    });
+});
+
+map.on('mousemove', function(e) {
+    var features = map.queryRenderedFeatures(e.point, {
+        layers: ['wikidata-layer']
+    });
+    map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+});
+
+function populateTable(feature) {
     // Populate the popup and set its coordinates
     // based on the feature found.
 
@@ -70,7 +96,6 @@ map.on('click', function(e) {
                   "&polygon=1&bounded=1&viewbox=" + left + "%2C" + top + "%2C" + right + "%2C" + bottom + "'>OSM</a><br>";
 
     popupHTML += "<table style='table-layout:fixed'>";
-
     for(property in feature.properties) {
         if (property == 'distance') {
             var distance = feature.properties[property];
@@ -81,15 +106,19 @@ map.on('click', function(e) {
     }
     popupHTML += "</table>";
 
-    var popup = new mapboxgl.Popup()
-        .setLngLat(feature.geometry.coordinates)
-        .setHTML(popupHTML)
-        .addTo(map);
-});
+    return popupHTML;
+}
 
-map.on('mousemove', function(e) {
-    var features = map.queryRenderedFeatures(e.point, {
-        layers: ['wikidata-layer']
-    });
-    map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
-});
+function getDistance(lnglat1, lnglat2) {
+    // Uses spherical law of cosines approximation.
+    const R = 6371000;
+
+    const rad = Math.PI / 180,
+        lat1 = lnglat1.lat * rad,
+        lat2 = lnglat2.lat * rad,
+        a = Math.sin(lat1) * Math.sin(lat2) +
+          Math.cos(lat1) * Math.cos(lat2) * Math.cos((lnglat2.lng - lnglat1.lng) * rad);
+
+    const maxMeters = R * Math.acos(Math.min(a, 1));
+    return maxMeters / 1000;
+}
