@@ -8,13 +8,13 @@ var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/light-v9',
     zoom: 3,
-    center: [21.6, 7.6],
+    center: [
+        21.6, 7.6
+    ],
     hash: true
 });
 
-map.addControl(new MapboxGeocoder({
-    accessToken: mapboxgl.accessToken
-}));
+map.addControl(new MapboxGeocoder({accessToken: mapboxgl.accessToken}));
 
 map.on('load', function() {
     map.addSource('wikidata-source', {
@@ -30,17 +30,27 @@ map.on('load', function() {
             "circle-radius": {
                 "property": 'distance',
                 'stops': [
-                    [0, 1],
-                    [5, 4],
-                    [10, 8],
+                    [
+                        0, 1
+                    ],
+                    [
+                        5, 4
+                    ],
+                    [
+                        10, 8
+                    ],
                     [100, 20]
                 ]
             },
             "circle-color": {
                 "property": 'distance',
                 "stops": [
-                    [0, '#00ff00'],
-                    [5, '#ffff00'],
+                    [
+                        0, '#00ff00'
+                    ],
+                    [
+                        5, '#ffff00'
+                    ],
                     [10, '#ff0000']
                 ]
             }
@@ -48,6 +58,6 @@ map.on('load', function() {
     });
 
     // Inspect wikidata layer on click and show popup information
-    mapboxglLive.inspector(map, {layers: ['wikidata-layer'] });
+    mapboxglLive.inspector(map, {layers: ['wikidata-layer']});
 
 });

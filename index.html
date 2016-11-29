@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset='utf-8' />
     <title>OSM Wikidata Explorer</title>
@@ -22,16 +23,33 @@
             bottom: 0;
             width: 100%;
         }
-        .mapboxgl-popup-content{
-          max-width: 200px;
-          word-wrap: break-word;
+
+        .mapboxgl-popup-content {
+            max-width: 200px;
+            word-wrap: break-word;
         }
     </style>
 </head>
 
 <body>
 
-    <div id='map'></div>
+  <div class='col12 pad4 contain fill-navy dark clip'>
+  <div id='map'></div>
+  <div class='pin-right pad2'>
+    <a href='#step-4' class='button'>Trigger</a>
+  </div>
+  <div id='step-4' class='col4 pad2 fill-darken1 pin-left offcanvas-left animate'>
+    <a href='#' class='fill-darken2 pad1 icon close'></a>
+
+
+    <h2>Wikidata-OpenStreetMap</h2>
+
+  </div>
+</div>
+
+
+
+
     <script src='bundle.js'></script>
 
 </body>
