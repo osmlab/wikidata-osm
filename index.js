@@ -57,7 +57,7 @@ map.on('click', function(e) {
     var feature = features[0];
 
     var lngLat1, lngLat2;
-    $.getJSON("http://www.wikidata.org/w/api.php?action=wbgetentities&ids=" + feature.properties.wikidata + "&format=json&callback=?", function(data) {
+    $.getJSON("https://www.wikidata.org/w/api.php?action=wbgetentities&ids=" + feature.properties.wikidata + "&format=json&callback=?", function(data) {
         if (data["entities"]) {
             var latitude = data["entities"][feature.properties.wikidata]["claims"]["P625"][0]["mainsnak"]["datavalue"]["value"]["latitude"];
             var longitude = data["entities"][feature.properties.wikidata]["claims"]["P625"][0]["mainsnak"]["datavalue"]["value"]["longitude"];
