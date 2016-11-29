@@ -38,9 +38,13 @@ var Live = {
                     lngLat1 = new mapboxgl.LngLat(longitude, latitude);
                     lngLat2 = new mapboxgl.LngLat(feature.geometry.coordinates[0], feature.geometry.coordinates[1]);
                     var distance = getDistance(lngLat1, lngLat2);
-                    feature.properties.distance = distance;
+                    var modified = false;
+                    if (distance !== feature.properties.distance && Math.abs(distance - feature.properties.distance) > 0.1) {
+                        modified = true;
+                        feature.properties.distance = distance;
+                    }
 
-                    var popupHTML = populateTable(feature);
+                    var popupHTML = populateTable(feature, modified);
 
                     var popup = new mapboxgl.Popup().setLngLat(centroid(feature).geometry.coordinates).setHTML(popupHTML).addTo(map);
                 }
@@ -59,7 +63,7 @@ var Live = {
     }
 }
 
-function populateTable(feature) {
+function populateTable(feature, modified) {
     // Populate the popup and set its coordinates
     // based on the feature found.
 
@@ -68,6 +72,11 @@ function populateTable(feature) {
     popupHTML += "<a href='" + nominatimLink(feature.properties.name, feature.geometry.coordinates) + "'>OSM Search</a><br>";
 
     popupHTML += "<table style='table-layout:fixed'>";
+
+    if (modified) {
+        popupHTML += "<h4>Modified on wikidata</h4>";
+    }
+
     for (property in feature.properties) {
         if (property == 'distance') {
             var distance = feature.properties[property];
