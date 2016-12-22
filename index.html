@@ -3,7 +3,7 @@
 
 <head>
     <meta charset='utf-8' />
-    <title>OSM Wikidata Explorer</title>
+    <title>OpenStreetMap - Wikidata Validator</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.28.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.28.0/mapbox-gl.css' rel='stylesheet' />
@@ -27,6 +27,8 @@
         .mapboxgl-popup-content {
             max-width: 200px;
             word-wrap: break-word;
+            max-height: 300px;
+            overflow: auto;
         }
         .legend {
             background-color: #fff;
@@ -37,6 +39,7 @@
             position: absolute;
             left: 10px;
             z-index: 1;
+            max-width: 400px;
         }
 
     </style>
@@ -45,13 +48,15 @@
 <body>
 <div id='map'></div>
 <div id= "legend"  class='legend' style='display: block;'>
-    <h2>OSM-Wikidata Validation tool</h2>
-    <p>Each circle is a OSM feature with wikidata tag.</br></br>
-    Circle size and color are based on the distance(in km.)</br> between OSM feature and wikidata coordinates.</p>
-    <p><a href="https://github.com/osmlab/wikidata-osm">More information</a></p>
+    <h2>OpenStreetMap - Wikidata Validator</h2>
+    <p>Each circle is an OpenStreetMap feature with a Wikidata tag. </p>
+    <p>Circle size and color are based on the distance in kilometers between OpenStreetMap feature and Wikidata coordinates.</p>
+    <p>Large red circles mean the distance is greater than 10 kilometers, which indicates a higher error rate.</p>
+    <p><a href="https://github.com/osmlab/wikidata-osm">Read more about this project.</a></p>
     <h3>Distance threshold</h3>
     <label id='Distance'></label>
     <input id='slider' name="Distance" type='range' min='0' max='100' step='5' value='100'>
+
 </div>
 
 
