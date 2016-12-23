@@ -14,6 +14,7 @@
     "budo": "^9.2.1"
   },
   "dependencies": {
+    "turf-bbox": "^3.0.12",
     "turf-centroid": "^3.0.12",
     "xtend": "^4.0.1"
   }

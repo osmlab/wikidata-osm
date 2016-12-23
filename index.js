@@ -22,6 +22,35 @@ map.on('load', function() {
         type: 'vector',
         url: 'mapbox://amisha.wikidata_planet_geojson'
     });
+    map.addSource('points', {
+        type: 'geojson',
+        data: {
+                "type": "FeatureCollection",
+                "features": [{
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [, ]
+                    }
+                }, {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [, ]
+                    }
+                }]
+            }
+    });
+    map.addLayer({
+        'id': 'points-layer',
+        'type': 'circle',
+        'source': 'points',
+        'type': 'symbol',
+        'layout': {
+            "icon-image": "{icon}-15",
+            'icon-size': 3
+        }
+    });
     map.addLayer({
         "id": "wikidata-layer",
         "type": "circle",

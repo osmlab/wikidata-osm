@@ -41,23 +41,26 @@
             z-index: 1;
             max-width: 400px;
         }
-
     </style>
 </head>
 
 <body>
-<div id='map'></div>
-<div id= "legend"  class='legend' style='display: block;'>
-    <h2>OpenStreetMap - Wikidata Validator</h2>
-    <p>Each circle is an OpenStreetMap feature with a Wikidata tag. </p>
-    <p>Circle size and color are based on the distance in kilometers between OpenStreetMap feature and Wikidata coordinates.</p>
-    <p>Large red circles mean the distance is greater than 10 kilometers, which indicates a higher error rate.</p>
-    <p><a href="https://github.com/osmlab/wikidata-osm">Read more about this project.</a></p>
-    <h3>Distance threshold</h3>
-    <label id='Distance'></label>
-    <input id='slider' name="Distance" type='range' min='0' max='100' step='5' value='100'>
-
-</div>
+<figure>
+   <div id="container">
+       <div id='map'></div>
+       <div id= "legend" class='legend' style='display: block;'>
+        <h2>OpenStreetMap - Wikidata Validator</h2>
+        <p>Each circle is an OpenStreetMap feature with a Wikidata tag. </p>
+        <p>Circle size and color are based on the distance in kilometers between OpenStreetMap feature and Wikidata coordinates.</p>
+        <p>Large red circles mean the distance is greater than 10 kilometers, which indicates a higher error rate.</p>
+        <p><a href="https://github.com/osmlab/wikidata-osm">Read more about this project.</a></p>
+        <h3>Distance threshold</h3>
+        <label id='Distance'></label>
+        <input id='slider' name="Distance" type='range' min='0' max='100' step='5' value='100'>
+    </div>
+    <div id='sidebar' class='animate offcanvas-right pin-right col3 keyline-right fill-light pad2 pad4y'>
+    </div>
+</figure>
 
 
     <script src='bundle.js'></script>
