@@ -25,14 +25,31 @@ map.on('load', function() {
     });
     map.addSource('points', {
         type: 'geojson',
-        data: ''
+        data: {
+                "type": "FeatureCollection",
+                "features": [{
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [, ]
+                    }
+                }, {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [, ]
+                    }
+                }]
+            }
     });
     map.addLayer({
         'id': 'points-layer',
         'type': 'circle',
         'source': 'points',
-        'paint': {
-            'circle-color': '#ff0000'
+        'type': 'symbol',
+        'layout': {
+            "icon-image": "{icon}-15",
+            'icon-size': 3
         }
     });
     map.addLayer({
@@ -121,7 +138,7 @@ function repaintLayer(threshold) {
 
 var xtend = require('xtend');
 var centroid = require('turf-centroid');
-var bbox = require('turf-bbox');
+var turf_bbox = require('turf-bbox');
 
 defaultOpts = {
     layers: ['building'],
@@ -144,7 +161,6 @@ var Live = {
             }
 
             var feature = features[0];
-            console.log(JSON.stringify(feature, null, 2));
 
             var lngLat1,
                 lngLat2;
@@ -172,22 +188,55 @@ var Live = {
                             "geometry": {
                                 "type": "Point",
                                 "coordinates": [longitude, latitude]
+                            },
+                            "properties": {
+                                "icon": "marker"
                             }
                         }, {
                             "type": "Feature",
                             "geometry": {
                                 "type": "Point",
                                 "coordinates": [feature.geometry.coordinates[0], feature.geometry.coordinates[1]]
+                            },
+                            "properties": {
+                                "icon": "marker"
                             }
                         }]
                     };
                     map.setLayoutProperty('wikidata-layer', 'visibility', 'none');
+                    map.setLayoutProperty('points-layer', 'visibility', 'visible');
+
                     map.getSource('points').setData(data);
-                    var bounds = turf.bbox(data);
-                    console.log(data);
+                    var bounds = turf_bbox(data);
+                    var buffer;
+                    switch (true)
+                    {
+                    case (distance < 1): buffer = 0.005;
+                        break;
+                    case (distance < 20): buffer = 0.2;
+                        break;
+                    case (distance < 50): buffer = 1;
+                        break;
+                    case (distance < 100): buffer = 2;
+                        break;
+                    case (distance < 500): buffer = 3;
+                        break;
+                    default: buffer = 4;
+                        break;
+                    }
+                    bounds[0] -= buffer;
+                    bounds[1] -= buffer;
+                    bounds[2] += buffer;
+                    bounds[3] += buffer;
                     map.fitBounds(bounds);
                     $(location).attr('href', '#sidebar');
-                    // var popup = new mapboxgl.Popup().setLngLat(centroid(feature).geometry.coordinates).setHTML(popupHTML).addTo(map);
+                    $('#sidebar').html(popupHTML);
+                    document.getElementById('close').onclick = function(){
+                        map.setLayoutProperty('wikidata-layer', 'visibility','visible');
+                        map.setLayoutProperty('points-layer', 'visibility', 'none');
+                        map.getSource('points').setData({});
+                        window.location = '#container';
+                    };
                 }
             });
 
@@ -208,7 +257,9 @@ function populateTable(feature, modified) {
     // Populate the popup and set its coordinates
     // based on the feature found.
 
-    var popupHTML = "<h3>" + feature.properties.name + "</h3>";
+    var popupHTML = "<a id='close' class='icon close button'></a>";
+
+    popupHTML += "<h3>" + feature.properties.name + "</h3>";
     popupHTML += "<a href='https://www.wikidata.org/wiki/" + feature.properties.wikidata + "'>Wikidata</a><br>";
     popupHTML += "<a href='" + nominatimLink(feature.properties.name, feature.geometry.coordinates) + "'>OSM Search</a><br>";
 
