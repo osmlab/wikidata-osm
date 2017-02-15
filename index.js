@@ -3,7 +3,7 @@
 /* global App */
 var mapboxglLive = require('./mapbox-gl-live');
 
-var threshold = 100;
+var threshold = 1000;
 mapboxgl.accessToken = 'pk.eyJ1IjoicGxhbmVtYWQiLCJhIjoiY2l2dzVxbzA3MDAwNDJzbDUzMzVzbXc5dSJ9.WZ4_UtVvuVmOw4ofNMkiJw';
 var map = new mapboxgl.Map({
     container: 'map',
