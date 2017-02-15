@@ -1,11 +1,11 @@
 # wikidata-osm
 Apps, tools and scripts to work with Wikidata items from OpenStreetMap
 
-## Match Distance Tool
+## Distance Visualizer
 
 ![](https://cloud.githubusercontent.com/assets/126868/21437130/27d35b64-c8a8-11e6-8a37-94c8eb73ca29.png)
 
-Use [the match distance tool](https://osmlab.github.io/wikidata-osm/) to visualize the distance between the OpenStreetMap feature with the Wikidata tag, and the corresponsing coordinate on the Wikidata database. Larger markers indicate a larger distance between the matched features.
+Use [the distance visualizer](https://osmlab.github.io/wikidata-osm/) to visualize the distance between the OpenStreetMap feature with the Wikidata tag, and the corresponsing coordinate on the Wikidata database. Larger markers indicate a larger distance between the matched features.
 
 ### Interpreting large match distances
 
