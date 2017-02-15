@@ -25,21 +25,23 @@ map.on('load', function() {
     map.addSource('points', {
         type: 'geojson',
         data: {
-                "type": "FeatureCollection",
-                "features": [{
+            "type": "FeatureCollection",
+            "features": [
+                {
                     "type": "Feature",
                     "geometry": {
                         "type": "Point",
-                        "coordinates": [, ]
+                        "coordinates": []
                     }
                 }, {
                     "type": "Feature",
                     "geometry": {
                         "type": "Point",
-                        "coordinates": [, ]
+                        "coordinates": []
                     }
-                }]
-            }
+                }
+            ]
+        }
     });
     map.addLayer({
         'id': 'points-layer',
@@ -64,10 +66,12 @@ map.on('load', function() {
                         0, 0
                     ],
                     [
-                        threshold/20, 4
+                        threshold / 20,
+                        4
                     ],
                     [
-                        threshold/10, 8
+                        threshold / 10,
+                        8
                     ],
                     [threshold, 20]
                 ]
@@ -79,9 +83,13 @@ map.on('load', function() {
                         0, '#ffffff'
                     ],
                     [
-                        threshold/20, '#00ff00'
+                        threshold / 20,
+                        '#00ff00'
                     ],
-                    [threshold/10, '#ffff00'],
+                    [
+                        threshold / 10,
+                        '#ffff00'
+                    ],
                     [threshold, '#ff0000']
                 ]
             }
@@ -92,41 +100,47 @@ map.on('load', function() {
         threshold = distance;
         repaintLayer(distance);
     });
-    repaintLayer(100);
+    repaintLayer(1000);
     // Inspect wikidata layer on click and show popup information
     mapboxglLive.inspector(map, {layers: ['wikidata-layer']});
 
 });
 
 function repaintLayer(threshold) {
-    map.setPaintProperty('wikidata-layer',"circle-radius", {
+    map.setPaintProperty('wikidata-layer', "circle-radius", {
         "property": 'distance',
         'stops': [
             [
                 0, 0
             ],
             [
-                threshold/20, 4
+                threshold / 20,
+                4
             ],
             [
-                threshold/10, 8
+                threshold / 10,
+                8
             ],
             [threshold, 20]
         ]
     });
-    map.setPaintProperty('wikidata-layer',"circle-color", {
+    map.setPaintProperty('wikidata-layer', "circle-color", {
         "property": 'distance',
         "stops": [
             [
                 0, '#ffffff'
             ],
             [
-                threshold/20, '#00ff00'
+                threshold / 20,
+                '#00ff00'
             ],
-            [threshold/10, '#ffff00'],
+            [
+                threshold / 10,
+                '#ffff00'
+            ],
             [threshold, '#ff0000']
         ]
     });
-    document.getElementById('Distance').textContent = threshold;
+    document.getElementById('Distance').textContent = threshold + ' km';
 
 }
