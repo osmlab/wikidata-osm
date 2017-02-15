@@ -49,11 +49,9 @@
    <div id="container">
        <div id='map'></div>
        <div id= "legend" class='legend' style='display: block;'>
-        <h2>Wikidata-OSM distance visualizer</h2>
-        <p>Each circle is an OpenStreetMap feature with a Wikidata tag. </p>
-        <p>Circle size and color are based on the distance in kilometers between OpenStreetMap feature and Wikidata coordinates.</p>
-        <p>Larger circle markers indicate a larger distance between the matched features. It shows only those circles where distance is greater than threshold distance set below.</p>
-        <p><a href="https://github.com/osmlab/wikidata-osm">Read more about this project.</a></p>
+        <h2>Wikidata-OSM Match Distance Visualizer</h2>
+        <p>Use this tool to explore the distance between an OpenStreetMap feature and the location of its linked Wikidata entry. Please see <a href="https://github.com/osmlab/wikidata-osm">the instructions</a> on how to use this tool.</p>
+        <p>Larger markers represent a larger distance between the OpenStreetMap and corresponding Wikidata feature. It is normal for larger features like Countries to have a larger match distance. You can manually adjust the distance treshold to highlight to explore the data</p>
         <h3>Distance threshold</h3>
         <label id='Distance'></label>
         <input id='slider' name="Distance" type='range' min='0' max='100' step='5' value='100'>
